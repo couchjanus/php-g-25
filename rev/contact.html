@@ -1,5 +1,8 @@
- <!-- HERO SECTION-->
- <section class="py-5 bg-light">
+<!-- container -->
+      <div class="container">
+
+        <!-- HERO SECTION-->
+        <section class="py-5 bg-light">
           <div class="container">
             <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
               <div class="col-lg-6">
@@ -11,8 +14,8 @@
         </section>
 
         <!-- Contact page-->
-        <section class="">
-          <div class="container">
+        <section class="py-5">
+          <div class="container py-5">
             <header class="mb-5 pb-4">
               <p class="lead">
                 Are you curious about something? Do you have some kind of problem with our products? As am hastily invited settled at limited civilly fortune me. Really spring in extent an by. Judge but built party world. Of so am
@@ -52,13 +55,13 @@
         </section>
 
         <section class="">
-          <div class="container">
+          <div class="container py-5">
             <header class="mb-5">
-              <h2>Drop Message For Us</h2>
+              <h2>Contact form</h2>
             </header>
             <div class="row">
               <div class="col-md-7">
-                <form class="custom-form form" id="contact-form" method="POST" action="">
+                <form class="custom-form form" id="contact-form" method="post" action="contact.php">
                   <div class="row gy-3">
                     <div class="col-sm-6">
                       <label class="form-label" for="name">Your firstname *</label>
@@ -97,25 +100,4 @@
           </div>
         </section>
 
-        <section class="">
-            <?php if (isset($messages)):?>
-            <div class="p-3 p-md-5">
-                <p class="small text-muted mb-1">Based on <?php echo count($messages);?> customers</p>
-                <h5 class="mb-4">How customers reviewed this store</h5>
-                <div class="row">
-                    <?php foreach ($messages as $row):?>
-                        <div class="col-lg-6">
-                            <div class="d-flex mb-4"><img class="rounded-circle p-1 shadow-sm flex-grow-1 align-self-baseline" src="/images/user.png" alt="..." width="60" height="60">
-                            <div class="ms-3">
-                                <h3 class="h6 mb-0"><?=$row['name']?>&nbsp;<?=$row['surname']?></h3>
-                                <p class="text-gray small mb-0"><?=$row['created_at']?></p>
-                                
-                                <p class="text-small text-muted"><?=$row['message']?></p>
-                            </div>
-                            </div>
-                        </div>
-                    <?php endforeach?>
-                </div>
-            </div>
-            <?php endif?>
-        </section>
+      </div>
