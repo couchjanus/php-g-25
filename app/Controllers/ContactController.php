@@ -1,38 +1,53 @@
 <?php
+$address = conf('contacts');
+$messages = [];
 
-$messages = [
-    [
-        'name' => "Tom",
-        'surname' => "Cat",
-        'email' => "tom@my.cat",
-        'message' => "Able an hope of body. Any nay shyness article matters own removal nothing his forming. Gay own additions education satisfied the perpetual. If he cause manor happy. Without farther she exposed saw man led. Along on happy could cease green oh.",
-        'created_at' => "August 2, 2022",
-    ],
-    [
-        'name' => "Sara",
-        'surname' => "Baraboo",
-        'email' => "sb@my.cat",
-        'message' => "Without farther she exposed saw man led. Along on happy could cease green oh.",
-        'created_at' => "August 5, 2022",
-    ],
-];
+$link = mysqli_connect("localhost", "root", "","shopaholic");
 
-if ($_POST) {
-    // var_dump($_POST);
-
-    $arr = [
-        [
-        'name' => htmlspecialchars($_POST['name']),
-        'surname' => htmlspecialchars($_POST['surname']),
-        'email' => htmlspecialchars($_POST['email']),
-        'message' => htmlspecialchars($_POST['message']),
-        'created_at' => date("F j, Y"),
-        ]
-    ];
-
-    $messages = array_merge($messages, $arr);
-
-    // var_dump($messages);
+if($link === false) {
+    die("Error: Could not connect ". mysqli_connect_error());
 }
 
-render('contact/index', ['messages' => $messages]);
+// echo "Connet created succesfully";
+
+
+// var_dump($address);
+// $messages = [
+//     [
+//         'name' => "Tom",
+//         'surname' => "Cat",
+//         'email' => "tom@my.cat",
+//         'message' => "Able an hope of body. Any nay shyness article matters own removal nothing his forming. Gay own additions education satisfied the perpetual. If he cause manor happy. Without farther she exposed saw man led. Along on happy could cease green oh.",
+//         'created_at' => "August 2, 2022",
+//     ],
+//     [
+//         'name' => "Sara",
+//         'surname' => "Baraboo",
+//         'email' => "sb@my.cat",
+//         'message' => "Without farther she exposed saw man led. Along on happy could cease green oh.",
+//         'created_at' => "August 5, 2022",
+//     ],
+// ];
+
+if ($_POST) {
+    // var_dump($_GLOBALS);
+    $name = mysqli_real_escape_string($link, $_POST['name']);
+    $surname = mysqli_real_escape_string($link, $_POST['surname']);
+    $email = mysqli_real_escape_string($link,$_POST['email']);
+    $message = mysqli_real_escape_string($link, $_POST['message']);
+    
+    $sql = "INSERT INTO feedback (name, surname, message, email) VALUES('$name', '$surname', '$message', '$email')";
+    mysqli_query($link, $sql);
+    // var_dump($messages);
+}
+// var_dump($_ENV);
+$sql = "SELECT name, surname, message, created_at FROM feedback";
+
+$result = mysqli_query($link, $sql);
+
+if($result){
+    $messages = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}else{
+    echo "ERROR: Could not able to execute $sql. ".mysqli_error($link);
+}
+render('contact/index', ['messages' => $messages, 'address'=>$address]);
