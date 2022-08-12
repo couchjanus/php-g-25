@@ -1,3 +1,8 @@
 <?php
-// require_once realpath(ROOT.'/app/Views/about/index.php');
-render('/about/index');
+class AboutController
+{
+    public function index()
+    {
+        render('/about/index');
+    } 
+}

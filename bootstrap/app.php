@@ -11,9 +11,6 @@ function conf($mix) {
     return json_decode($json, True);
 }
 
-function uri() {
-    return trim($_SERVER['REQUEST_URI'], '/') ?? '';
-}
 
 function render($view, $params=null) {
 
@@ -33,16 +30,14 @@ function render($view, $params=null) {
     echo str_replace("{{ content }}", $content, ob_get_clean());
 }
 
-switch (uri()) {
-    case '':
-        require_once CONTROLLERS.'/HomeController.php';
-        break;
-    case 'about':
-        require_once CONTROLLERS.'/AboutController.php';
-        break;
-    case 'contact':
-        require_once CONTROLLERS.'/ContactController.php';
-        break;
-    default:
-        echo "<h1>404 Error Page</h1>";    
-}
+require_once ROOT.'/core/Router.php';
+$routesPath = ROOT.'/config/routes.php';
+
+$router = new Router($routesPath);
+
+// var_dump($router);
+$router->run();
+
+// echo $controller->var1;
+// echo $controller->var3;
+// $controller->index();
