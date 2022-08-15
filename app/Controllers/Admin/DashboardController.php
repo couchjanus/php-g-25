@@ -1,9 +1,9 @@
-<?php
+<?php 
 require_once ROOT.'/core/Response.php';
 
-class HomeController
+class DashboardController
 {
-    protected static string $layout = 'app';
+    protected static string $layout = 'admin';
     protected Response $response;
     
     public function __construct()
@@ -13,7 +13,7 @@ class HomeController
 
     public function index()
     {
-        $this->response->render('/home/index');
+        $this->response->render('/admin/index');
     } 
-}
 
+}

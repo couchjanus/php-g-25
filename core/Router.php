@@ -24,8 +24,13 @@ class Router
 
     private function init(string $path)
     {
-        $controller = $path;
-        $controllerPath = CONTROLLERS."/${path}.php";
+        $segments = explode('/', $path);
+        $controller = array_pop($segments);
+        $controllerPath = array_pop($segments);
+        $controllerPath = $controllerPath ? '/'.$controllerPath:'';
+        $controllerPath = CONTROLLERS.$controllerPath.'/'.$controller.'.php';
+        // $controller = $path;
+        // $controllerPath = CONTROLLERS."/${path}.php";
         if (file_exists($controllerPath)) {
             include_once $controllerPath;
             $controller = new $controller();
