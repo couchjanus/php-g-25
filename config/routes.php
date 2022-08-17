@@ -1,8 +1,11 @@
 <?php
 return [
-    '' => 'HomeController',
-    'about' => 'AboutController',
-    'contact' => 'ContactController',
-    'admin' => 'Admin/DashboardController',
-    'errors' => 'ErrorController',
+    '' => 'HomeController@index',
+    'about' => 'AboutController@index',
+    'contact' => 'ContactController@index',
+    'admin' => 'Admin/DashboardController@index',
+    'admin/brands' => 'Admin/BrandController@index',
+    'admin/brands/create' => 'Admin/BrandController@create',
+    'admin/brands/store' => 'Admin/BrandController@store',
+    'errors' => 'ErrorController@index',
 ];

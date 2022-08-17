@@ -7,9 +7,9 @@ class Router
     private Request $request;
     private static array $routes;
 
-    public function __construct(string $routesPath = ROOT.'/config/routes.php')
+    public function __construct(Request $request, string $routesPath = ROOT.'/config/routes.php')
     {
-        $this->request = new Request();
+        $this->request = $request !==null ? $request : new Request();
         self::$routes = require_once $routesPath;
     }
 
@@ -25,18 +25,20 @@ class Router
     private function init(string $path)
     {
         $segments = explode('/', $path);
-        $controller = array_pop($segments);
+        $segment = array_pop($segments);
+        [$controller, $action] = explode('@', $segment);
+
         $controllerPath = array_pop($segments);
         $controllerPath = $controllerPath ? '/'.$controllerPath:'';
+
         $controllerPath = CONTROLLERS.$controllerPath.'/'.$controller.'.php';
-        // $controller = $path;
-        // $controllerPath = CONTROLLERS."/${path}.php";
+ 
         if (file_exists($controllerPath)) {
             include_once $controllerPath;
-            $controller = new $controller();
+            $controller = new $controller($this->request);
         }else{
             throw new Exception("File $controllerPath does not exists!");
         }
-        return $controller->index();
+        return $controller->$action();
     }
 }

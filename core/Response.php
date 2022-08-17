@@ -79,11 +79,20 @@ class Response
 
     public function render($view, $params=[])
     {
+        foreach ($params as $key => $value){
+            $$key = $value;
+        }
         ob_start();
         include_once VIEWS."/$view.php";
         $content = ob_get_clean();
         $rendered = str_replace('{{ content }}', $content, $this->content);
         $this->setContent($rendered);
         $this->send();
+    }
+
+    public static function redirect($location="")
+    {
+        header('Location: http://'.$_SERVER['HTTP_HOST'].$location);
+        exit();
     }
 }
