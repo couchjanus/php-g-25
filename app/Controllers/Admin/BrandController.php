@@ -1,22 +1,23 @@
 <?php 
-require_once ROOT.'/core/Response.php';
-require_once ROOT.'/core/Request.php';
+require_once ROOT.'/core/Controller.php';
 require_once ROOT.'/app/Models/Brand.php';
 
-class BrandController
+class BrandController extends Controller
 {
     protected static string $layout = 'admin';
-    protected Response $response;
+    private Brand $brand;
     
-    public function __construct(Request $request=null)
+    public function __construct()
     {
-        $this->request = $request !==null ? $request : new Request();
-        $this->response = new Response(static::$layout);
+        parent::__construct();
+        $this->brand = new Brand();
     }
 
     public function index()
     {
-        $brands = (new Brand())->get();
+        // $brands = $this->brand->get();
+        $brands = $this->brand->select(['id', 'name'])->get();
+        // var_dump($brands);
         $this->response->render('/admin/brands/index', compact('brands'));
     } 
 
@@ -27,14 +28,14 @@ class BrandController
 
     public function store()
     {
-        $brand = new Brand();
-        if($brand->save([$this->request->name, $this->request->description])){
+        $this->brand->name = $this->request->name;
+        $this->brand->description = $this->request->description;
+        
+        if($this->brand->save()){
             $this->response->redirect('/admin/brands');
         }else{
             $this->response->redirect('/errors');
         }
-
-
     }
 
     public function edit()

@@ -90,6 +90,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="/admin/brands">
+              <span data-feather="file" class="align-text-bottom"></span>
+              Brands
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#">
               <span data-feather="shopping-cart" class="align-text-bottom"></span>
               Products
@@ -155,7 +161,7 @@
         <h1 class="h2">Dashboard</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <a href="/admin/brands/create"><button type="button" class="btn btn-sm btn-outline-secondary">New Item</button></a>
             <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
           </div>
           <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
