@@ -1,4 +1,5 @@
 <?php 
+namespace Core;
 
 class Connection
 {
@@ -11,7 +12,7 @@ class Connection
 
         if(!self::$instance){
             $dsn = self::makeDsn(self::$config['db']);
-            self::$instance = new PDO($dsn, self::$config['user'], self::$config['password'], self::$config['options']);
+            self::$instance = new \PDO($dsn, self::$config['user'], self::$config['password'], self::$config['options']);
         }
         return self::$instance;
     }

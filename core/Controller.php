@@ -1,6 +1,5 @@
 <?php 
-require_once ROOT.'/core/Response.php';
-require_once ROOT.'/core/Request.php';
+namespace Core;
 
 class Controller
 {

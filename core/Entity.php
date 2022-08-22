@@ -1,5 +1,5 @@
 <?php 
-require_once ROOT."/core/Connection.php";
+namespace Core;
 
 class Entity
 {
@@ -8,6 +8,7 @@ class Entity
     protected $connect;
     private $columns = [];
     private $as;
+    private $where;
 
     public function __construct()
     {
@@ -23,6 +24,12 @@ class Entity
     public function as($as)
     {
         $this->as = $as;
+        return $this;
+    }
+
+    public function where($where)
+    {
+        $this->where = $where;
         return $this;
     }
 
@@ -51,6 +58,11 @@ class Entity
         $query .= " FROM ";
         $query .= static::$table;
 
+        if(!empty($this->where)) {
+            $query .= " WHERE ";
+            $query .= $this->where;
+        }
+
         return $query;
     }
 
@@ -61,23 +73,36 @@ class Entity
         return $stmt->fetchAll();
     }
 
+    public function first($id)
+    {
+        $stmt = $this->connect->prepare($this->where("id=$id")->selectQuery());
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+    public function delete($id)
+    {
+        $sql = "DELETE FROM ".static::$table." WHERE id = ?";
+        $stmt = $this->connect->prepare($sql);
+        
+        return $stmt->execute([$id]);
+    }
+
     public function save()
     {
-        $class = new ReflectionClass($this);
+        $class = new \ReflectionClass($this);
         $properties = [];
 
-        foreach ($class->getProperties(ReflectionProperty::IS_PUBLIC) as $property){
+        foreach ($class->getProperties(\ReflectionProperty::IS_PUBLIC) as $property){
             if (isset($this->{$property->getName()})){
                 $properties[] = ''.$property->getName().' = "'.$this->{$property->getName()}.'"';
             }
         }
         $setValues = implode(',', $properties);
         $sql = '';
-        if($this->id <= 0) {
+        if($this->id > 0) {
+            $sql = 'UPDATE '.static::$table. ' SET '. $setValues. ' WHERE id = ' .$this->id;
+        } else{
             $sql = 'INSERT INTO '.static::$table. ' SET '. $setValues. ', id = '.$this->next();
-
-            // var_dump($sql);
-            // exit();
         }
         $stmt = $this->connect->prepare($sql);
         $result = $stmt->execute();

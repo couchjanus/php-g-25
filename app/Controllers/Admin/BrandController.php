@@ -1,6 +1,9 @@
 <?php 
-require_once ROOT.'/core/Controller.php';
-require_once ROOT.'/app/Models/Brand.php';
+namespace App\Controllers\Admin;
+
+use Core\Controller;
+
+use App\Models\Brand;
 
 class BrandController extends Controller
 {
@@ -38,16 +41,35 @@ class BrandController extends Controller
         }
     }
 
-    public function edit()
+    public function edit($params)
     {
+        extract($params);
 
+        $brand = $this->brand->first($id);
+        $this->response->render('/admin/brands/edit', compact('brand'));
     }
     public function update()
     {
-
+        $this->brand->id = $this->request->id;
+        $this->brand->name = $this->request->name;
+        $this->brand->description = $this->request->description;
+        
+        if($this->brand->save()){
+            $this->response->redirect('/admin/brands');
+        }else{
+            $this->response->redirect('/errors');
+        }
     }
-    public function destroy()
+    public function destroy($params)
     {
+        extract($params);
+        if ($_POST) {
+            if($this->brand->delete($this->request->id)){
+                $this->response->redirect('/admin/brands');
+            }else{
+                $this->response->redirect('/errors');
+            } 
+        }
 
     }
 }

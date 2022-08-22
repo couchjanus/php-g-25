@@ -1,5 +1,7 @@
 <?php 
-require_once ROOT."/core/Entity.php";
+namespace App\Models;
+
+use Core\Entity;
 
 class Brand extends Entity
 {
