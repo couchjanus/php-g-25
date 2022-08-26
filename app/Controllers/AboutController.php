@@ -1,8 +1,11 @@
 <?php
-class AboutController
+namespace Controllers;
+use Core\Controller;
+
+class AboutController extends Controller
 {
     public function index()
     {
-        render('/about/index');
+        $this->response->render('about/index');
     } 
 }

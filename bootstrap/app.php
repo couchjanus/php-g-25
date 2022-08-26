@@ -7,6 +7,9 @@ const VIEWS = ROOT.'/app/Views';
 const CONFIG = ROOT.'/config';
 const DB_CONFIG_FILE = ROOT.'/config/db.php';
 
+const MEDIA = '/storage';
+define('STORAGE', $_SERVER['DOCUMENT_ROOT'].MEDIA);
+
 require_once __DIR__.'/autoload.php';
 
 // function conf($mix) {

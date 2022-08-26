@@ -1,9 +1,9 @@
 <?php 
-namespace App\Controllers\Admin;
+namespace Controllers\Admin;
 
 use Core\Controller;
 
-use App\Models\Brand;
+use Models\Brand;
 
 class BrandController extends Controller
 {
