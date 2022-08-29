@@ -96,13 +96,19 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="/admin/badges">
+              <span data-feather="file" class="align-text-bottom"></span>
+              Badges
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/admin/categories">
               <span data-feather="file" class="align-text-bottom"></span>
               Categories
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/admin/products">
               <span data-feather="shopping-cart" class="align-text-bottom"></span>
               Products
             </a>
