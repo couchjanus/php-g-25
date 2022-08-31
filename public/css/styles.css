@@ -954,7 +954,7 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
     background-color: green !important;
 }
 
-.bg-sale {
+.bg-danger {
     background-color: red !important;
 }
 

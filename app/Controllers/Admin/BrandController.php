@@ -33,12 +33,15 @@ class BrandController extends Controller
     {
         $this->brand->name = $this->request->name;
         $this->brand->description = $this->request->description;
-        
-        if($this->brand->save()){
+        try {
+            $this->brand->save();
+            $this->request->flash()->message('success', 'Brand created Successfully!');
             $this->response->redirect('/admin/brands');
-        }else{
-            $this->response->redirect('/errors');
+        } catch(\Exception $e){
+            $this->request->flash()->dander($e->getMessage());
+            $this->response->back();
         }
+        
     }
 
     public function edit($params)
@@ -55,6 +58,7 @@ class BrandController extends Controller
         $this->brand->description = $this->request->description;
         
         if($this->brand->save()){
+            $this->request->flash()->message('success', 'Brand updated Successfully!');
             $this->response->redirect('/admin/brands');
         }else{
             $this->response->redirect('/errors');
@@ -65,6 +69,7 @@ class BrandController extends Controller
         extract($params);
         if ($_POST) {
             if($this->brand->delete($this->request->id)){
+                $this->request->flash()->success('Brand Deleted Successfully!');
                 $this->response->redirect('/admin/brands');
             }else{
                 $this->response->redirect('/errors');

@@ -6,7 +6,7 @@
             <a href="/" class="navbar-brand"><span class="fw-bold text-uppercase text-dark">Shopaholic</span></a>
             <!-- navbar-toggler -->
 
-            <button class="navbar-toggler navbar-toggler-end collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <button id ="navbar-toggler" class="navbar-toggler navbar-toggler-end collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             
             <div class="navbar-collapse collapse">
               <!-- navbar-nav -->
@@ -28,9 +28,9 @@
               </ul>
               <ul class="navbar-nav ms-auto">               
                 <li class="nav-item">
-                  <a href="/cart" class="nav-link"><i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart<small class="text-gray fw-normal">(2)</small></a>
+                  <a href="/cart" class="nav-link"><i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart<small class="text-gray fw-normal">(<span id="shopping-cart-value">0</span>)</small></a>
                 </li>
-                <li class="nav-item"><a href="#!" class="nav-link"><i class="far fa-heart me-1"></i><small class="text-gray fw-normal">(0)</small></a>
+                <li class="nav-item"><a href="#!" class="nav-link"><i class="far fa-heart me-1"></i><small class="text-gray fw-normal">(<span id="wish-list-value">0</span>)</small></a>
                 </li>
                 <li class="nav-item"><a href="#!" class="nav-link"><i class="fas fa-user me-1 text-gray fw-normal"></i>Login</a>
                 </li>

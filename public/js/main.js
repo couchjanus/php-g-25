@@ -14,13 +14,7 @@ let wishlist = [];
 class Store {
     static init(key) {
         if (!Store.isset(key)) Store.set(key, []);
-        // try {
-        //     Store.isset(key) ?? Store.set(key, []);
-        // } catch(err) {
-        //     if (err === QUOTA_EXCEEDED_ERR) {
-        //         console.log("Local Storage Limited is exceeded");
-        //     }
-        // }
+        
         return Store.get(key);
     }
 
@@ -43,7 +37,7 @@ let productItemTemplate = product =>
         <div class="col-lg-4 col-sm-6">
             <div class="product text-center">
                 <div class="mb-3 position-relative">
-                    <div class="badge text-white bg-${product.badge.bg}">${product.badge.title}</div>
+                    <div class="badge text-white bg-${product.bg}">${product.badgeTitle}</div>
                     <a class="d-block" href="detail.html"><img class="img-fluid w-100" src="${product.image}" alt="${product.title}"></a>
                     <div class="product-overlay">
                         <ul class="mb-0 list-inline btn-block" data-id="${product.id}" data-price="${product.price}">
@@ -434,7 +428,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector('.collapse').classList.toggle('show');
     });
 
-    fetchProducts('https://my-json-server.typicode.com/couchjanus/db/products')
+    fetchProducts('http://shop.my/api/products')
     .then(products => {
         console.log(products)
         cart = Store.init('basket');
@@ -492,15 +486,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if(showCase) {
 
-            const selectPicker = document.querySelector('.selectpicker');
-            const sortingOrders = [
-                {k: "default", v: "Default Sorting"},
-                {k: "popularity", v: "Popularity Product"},
-                {k: "low-high", v: "Low To High Price"},
-                {k: "high-low", v: "High To Low Price"},
-            ]
+            // const selectPicker = document.querySelector('.selectpicker');
+            // const sortingOrders = [
+            //     {k: "default", v: "Default Sorting"},
+            //     {k: "popularity", v: "Popularity Product"},
+            //     {k: "low-high", v: "Low To High Price"},
+            //     {k: "high-low", v: "High To Low Price"},
+            // ]
 
-            selectPicker.innerHTML = sortingOrders.map(item => `<option value="${item.k}">${item.v}</option>`).join(" ");
+            // selectPicker.innerHTML = sortingOrders.map(item => `<option value="${item.k}">${item.v}</option>`).join(" ");
 
 
             let compare = (key, order='asc') => (a, b) => {
@@ -514,21 +508,21 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            selectPicker.addEventListener('change' , function() {
-                switch(this.value){
-                    case 'low-high':
-                        showCase.innerHTML = populateProductList(currentProducts.sort(compare('price', 'asc')));
-                        break;
-                    case 'high-low':
-                        showCase.innerHTML = populateProductList(currentProducts.sort(compare('price', 'desc')));
-                        break;
-                    case 'popularity':
-                        showCase.innerHTML = populateProductList(currentProducts.sort(compare('stars', 'desc')));
-                        break;
-                    default: 
-                        showCase.innerHTML = populateProductList(currentProducts.sort(compare('id', 'asc')));
-                }
-            })
+            // selectPicker.addEventListener('change' , function() {
+            //     switch(this.value){
+            //         case 'low-high':
+            //             showCase.innerHTML = populateProductList(currentProducts.sort(compare('price', 'asc')));
+            //             break;
+            //         case 'high-low':
+            //             showCase.innerHTML = populateProductList(currentProducts.sort(compare('price', 'desc')));
+            //             break;
+            //         case 'popularity':
+            //             showCase.innerHTML = populateProductList(currentProducts.sort(compare('stars', 'desc')));
+            //             break;
+            //         default: 
+            //             showCase.innerHTML = populateProductList(currentProducts.sort(compare('id', 'asc')));
+            //     }
+            // })
 
             showCase.innerHTML = populateProductList(products);
 
