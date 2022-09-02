@@ -21,6 +21,20 @@ return [
     'admin/badges/update' => 'Controllers\Admin\BadgeController@update',
     'admin/badges/store' => 'Controllers\Admin\BadgeController@store',
 
+    'admin/roles' => 'Controllers\Admin\RoleController@index',
+    'admin/roles/create' => 'Controllers\Admin\RoleController@create',
+    'admin/roles/edit/{id}' => 'Controllers\Admin\RoleController@edit',
+    'admin/roles/destroy/{id}' => 'Controllers\Admin\RoleController@destroy',
+    'admin/roles/update' => 'Controllers\Admin\RoleController@update',
+    'admin/roles/store' => 'Controllers\Admin\RoleController@store',
+
+    'admin/users' => 'Controllers\Admin\UserController@index',
+    'admin/users/create' => 'Controllers\Admin\UserController@create',
+    'admin/users/edit/{id}' => 'Controllers\Admin\UserController@edit',
+    'admin/users/destroy/{id}' => 'Controllers\Admin\UserController@destroy',
+    'admin/users/update' => 'Controllers\Admin\UserController@update',
+    'admin/users/store' => 'Controllers\Admin\UserController@store',
+
     'admin/products' => 'Controllers\Admin\ProductController@index',
     'admin/products/create' => 'Controllers\Admin\ProductController@create',
     'admin/products/edit/{id}' => 'Controllers\Admin\ProductController@edit',
