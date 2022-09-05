@@ -1,10 +1,15 @@
 <?php
-class ContactController 
+namespace Controllers;
+use Core\Controller;
+
+class ContactController extends Controller
 {
     private $address, $messages, $link;
 
+    protected static string $layout = 'app';
     public function __construct()
     {
+        parent::__construct();
         $this->address = conf('contacts');
         $this->messages = [];
 
@@ -36,6 +41,6 @@ class ContactController
         }else{
             echo "ERROR: Could not able to execute $sql. ".mysqli_error($this->link);
         }
-        render('contact/index', ['messages' => $this->messages, 'address'=>$this->address]);
+        $this->response->render('contact/index', ['messages' => $this->messages, 'address'=>$this->address]);
     }
 }
