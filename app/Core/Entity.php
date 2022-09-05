@@ -126,6 +126,13 @@ class Entity
         $stmt->execute();
         return $stmt->fetch();
     }
+    public function find($condition, $fields=[]) {
+        
+        $stmt = $this->connect->prepare($this->select($fields)->where($condition)->selectQuery());
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
 
     public function findBy($condition)
     {

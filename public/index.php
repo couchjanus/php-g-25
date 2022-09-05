@@ -1,3 +1,2 @@
-<?php
-
-require_once realpath(__DIR__.'/../bootstrap/app.php');
+<?php 
+require_once realpath(__dir__.'/../bootstrap/app.php');

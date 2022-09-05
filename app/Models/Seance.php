@@ -5,12 +5,12 @@ use Core\Entity;
 
 class Seance extends Entity
 {
-    protected static $table = 'seance';
+    protected static $table = 'seances';
 
     public $id;
     public $uid;
     public $hash;
-    public $expiredata;
+    public $expiredate;
     public $agent;
     public $cookie_crc;
 

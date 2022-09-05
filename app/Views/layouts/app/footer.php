@@ -76,7 +76,7 @@
                 <p class="small text-muted mb-0">© 2022 All rights reserved.</p>
               </div>
               <div class="col-md-6 text-center text-md-end">
-                <p class="small text-muted mb-0">Template designed by <a class="text-white reset-anchor" href="">Bootstrapious</a></p>
+                <p class="small text-muted mb-0">Template designed by <a class="text-white reset-anchor" href="https://bootstrapious.com/p/boutique-bootstrap-e-commerce-template">Bootstrapious</a></p>
               </div>
             </div>
           </div>

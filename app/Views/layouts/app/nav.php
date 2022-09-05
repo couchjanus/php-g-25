@@ -6,7 +6,7 @@
             <a href="/" class="navbar-brand"><span class="fw-bold text-uppercase text-dark">Shopaholic</span></a>
             <!-- navbar-toggler -->
 
-            <button id ="navbar-toggler" class="navbar-toggler navbar-toggler-end collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <button id="navbar-toggler" class="navbar-toggler navbar-toggler-end collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             
             <div class="navbar-collapse collapse">
               <!-- navbar-nav -->
@@ -14,7 +14,7 @@
                 <!-- nav-item -->
                 <li class="nav-item">
                   <!-- nav-link-->
-                  <a href="/" class="nav-link active">Home</a>
+                  <a href="/" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
                   <!-- Link--><a href="/shop" class="nav-link">Shop</a>
@@ -28,12 +28,21 @@
               </ul>
               <ul class="navbar-nav ms-auto">               
                 <li class="nav-item">
-                  <a href="/cart" class="nav-link"><i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart<small class="text-gray fw-normal">(<span id="shopping-cart-value">0</span>)</small></a>
+                  <a href="/cart" class="nav-link"><i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart<small class="text-gray fw-normal" id="shopping-cart-value">(2)</small></a>
                 </li>
-                <li class="nav-item"><a href="#!" class="nav-link"><i class="far fa-heart me-1"></i><small class="text-gray fw-normal">(<span id="wish-list-value">0</span>)</small></a>
+                <li class="nav-item"><a href="#!" class="nav-link"><i class="far fa-heart me-1"></i><small class="text-gray fw-normal" id="wish-list-value">(0)</small></a>
                 </li>
-                <li class="nav-item"><a href="#!" class="nav-link"><i class="fas fa-user me-1 text-gray fw-normal"></i>Login</a>
+                <?php if(Core\Session::instance()->get('isAuth')):?>
+                <li class="nav-item"><a href="/profile" class="nav-link"><i class="fas fa-user me-1 text-gray fw-normal"></i>Profile</a>
                 </li>
+                <li class="nav-item"><a href="/logout" class="nav-link"><i class="fas fa-user me-1 text-gray fw-normal"></i>Logout</a>
+                </li>
+                <?php else: ?>
+                <li class="nav-item"><a href="/login" class="nav-link"><i class="fas fa-user me-1 text-gray fw-normal"></i>Login</a>
+                </li>
+                <li class="nav-item"><a href="/register" class="nav-link"><i class="fas fa-user me-1 text-gray fw-normal"></i>Sign Up</a>
+                </li>
+                <?php endif?>
               </ul>
             </div>
           </nav>

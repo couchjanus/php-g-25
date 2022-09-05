@@ -4,7 +4,19 @@ return [
     'about' => 'Controllers\AboutController@index',
     'contact' => 'Controllers\ContactController@index',
 
-    'api/products' => 'Controllers\HomeController@getProduct',
+    "register" => "Controllers\RegisterController@index",
+    "signup" => "Controllers\RegisterController@signup",
+
+    "login" => "Controllers\LoginController@index",
+    "signin" => "Controllers\LoginController@signin",
+
+    "profile" => "Controllers\ProfileController@index",
+    "logout" => "Controllers\LoginController@logout",
+    
+    'shop' => 'Controllers\ShopController@index',
+
+    'api/products' => 'Controllers\HomeController@getAllProducts',
+    'api/categories' => 'Controllers\HomeController@getCategories',
 
     'admin' => 'Controllers\Admin\DashboardController@index',
     'admin/brands' => 'Controllers\Admin\BrandController@index',
