@@ -15,8 +15,12 @@
             <input class="form-control" type="email" placeholder="Email address" name="email">
           </div>
           <div class="col-lg-6 mb-3">
-            <label class="form-label">Password</label>
-            <input class="form-control" type="password" placeholder="Password" name="password">
+            <label class="form-label">Password:</label>
+            <div class="input-group mb-3">
+              
+              <input class="form-control" type="password" placeholder="Password" name="password" id="password">
+              <span class="input-group-text"><i class="fa fa-eye-slash" aria-hidden="true" id="togglePassword"></i></span>
+            </div>
           </div>
           <div class="col-12 mb-3">
             <div class="form-check">
@@ -36,3 +40,17 @@
     </div>
   </div>
 </div>
+
+<script>
+        const togglePassword = document.querySelector("#togglePassword");
+        const password = document.querySelector("#password");
+
+        togglePassword.addEventListener("click", function () {
+            // toggle the type attribute
+            const type = password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
+            // toggle the icon
+            this.classList.toggle("fa-eye-slash");
+        });
+
+</script>

@@ -25,6 +25,7 @@ class HomeController extends Controller
         echo json_encode($categories);
     }
 
+    
 
     public function getProductsByCategory($params)
     {
@@ -38,7 +39,7 @@ class HomeController extends Controller
         
         // $products = (new Product)->select(["products.*", "categories.name", "categories.cover"])->join('categories')->on('category_id')->get();
 
-        $products = (new Product())->select(["products.*", "badges.title as badgeTitle", "badges.bg", "categories.name", "categories.id as categoryId", "brands.name as brandName", "brands.id as brandId"])->mjoin(['badges'=>'badge_id', 'brands'=>'brand_id', 'categories'=>'category_id'])->get();
+        $products = (new Product())->select(["products.*", "badges.title as badgeTitle", "badges.bg", "categories.name as category", "categories.id as categoryId", "brands.name as brandName", "brands.id as brandId"])->mjoin(['badges'=>'badge_id', 'brands'=>'brand_id', 'categories'=>'category_id'])->get();
         
     
         echo json_encode($products);

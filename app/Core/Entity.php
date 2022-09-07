@@ -158,6 +158,13 @@ class Entity
         return $stmt->execute();
     }
 
+    public function insert($sql, $params = [])
+    {
+        $stmt = $this->connect->prepare($sql);
+        $result = $stmt->execute($params);
+        return $result;
+    }
+
     public function save()
     {
         $class = new \ReflectionClass($this);

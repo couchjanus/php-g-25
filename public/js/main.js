@@ -8,6 +8,7 @@ const shoppingCartValue = document.getElementById('shopping-cart-value');
 const wishListValue = document.getElementById('wish-list-value');
 const shoppingCartItems = document.querySelector(".shopping-cart-items");
 const categoriesList = document.querySelector(".categories-list");
+
 let cart = [];
 let wishlist = [];
 
@@ -28,6 +29,13 @@ class Store {
     static isset(key) {
         return this.get(key) !== null;
     }
+}
+
+const clear = () => {
+    cart = [];
+    shoppingCartItems.innerHTML = '';
+    saveCart(cart);
+    amountCartItems(cart);
 }
 
 
@@ -53,7 +61,7 @@ let productItemTemplate = product =>
     `;
 
 function cartItemTemplate(products, item) {
-    console.log('products =', products);
+    // console.log('products =', products);
     let product = products.find(product => product.id == item.id);
     return ` <tr class="cart-item" id="id${product.id}">
     <th class="ps-0 py-3 border-light" scope="row">
@@ -94,16 +102,12 @@ function setCartTotal(cart) {
 
 function amountCartItems(cart){
     if (cart) {
-        console.log(shoppingCartValue)
         shoppingCartValue.textContent = cart.reduce((prev, cur) => prev + cur.amount, 0);
-    }
-
-    
-    
     if(+shoppingCartValue.textContent > 0) {
         shoppingCartValue.classList.add('fw-bold');
         shoppingCartValue.style = "color:red;";
     }
+  }
 }
 
 function saveWishList(wishlist){
@@ -314,6 +318,7 @@ function addProductToCart(product, amount=1){
         cart = [...cart, cartItem];
     }  
     saveCart(cart);
+    amountCartItems(cart);
 }
 
 function addToCartButton(cart) {
@@ -359,33 +364,38 @@ function populateCategories(categories) {
     return result;
 }
 
-function renderCategory(selector, products){
-const categoriesAll = document.querySelector(".categories");
-categoriesAll.addEventListener('click', () =>{ showCase.innerHTML = populateProductList(products)
-    addToCartButton(cart);
-    detailButton(products);
-    addToWishListButton(); 
-});
+function renderCategory(selector, products) {
 
-
-const categoryItems = document.querySelectorAll(selector);
-categoryItems.forEach(item => item.addEventListener('click', e => {
-    e.preventDefault();
-
-    if (e.target.classList.contains('category-item')) {
-        const category = e.target.dataset.category;
-        const categoryFilter = items => items.filter(item => item.category.name.includes(category));
-        showCase.innerHTML = populateProductList(categoryFilter(products));
-
-    }else{
-        showCase.innerHTML = populateProductList(products);
+    const categoriesAll = document.querySelector(".categories");
+    if (categoriesAll) {
+        categoriesAll.addEventListener('click', () => { 
+            showCase.innerHTML = populateProductList(products)
+            addToCartButton(cart);
+            detailButton(products);
+            addToWishListButton(); 
+        });
     }
-    addToCartButton(cart);
-    detailButton(products);
-    addToWishListButton(); 
-})) 
 
-}
+    const categoryItems = document.querySelectorAll(selector);
+    
+    categoryItems.forEach(item => item.addEventListener('click', e => {
+            e.preventDefault();
+
+            if (e.target.classList.contains('category-item')) {
+                const category = e.target.dataset.category;
+                console.log(category)
+                const categoryFilter = items => items.filter(item => item.category.includes(category));
+                showCase.innerHTML = populateProductList(categoryFilter(products));
+
+            }else{
+                showCase.innerHTML = populateProductList(products);
+            }
+            addToCartButton(cart);
+            detailButton(products);
+            addToWishListButton(); 
+        })
+     ); 
+  }
 
 const carouselItemTemolate = data => `<div class="slide carousel-item">
 <a class="category-item" href="#!" data-category="${data.name}">
@@ -424,21 +434,11 @@ function fetchProducts(url){
                 throw error
             })
         }
-        return response.json()
+        return response.json();
     })
 }
 
-// =======================================================
-document.addEventListener("DOMContentLoaded", () => {
-    console.log(navbarToggler)
-    navbarToggler.addEventListener('click', function(){
-        document.querySelector('.collapse').classList.toggle('show');
-    });
-
-    cart = Store.init('basket');
-    wishlist = Store.init('wishlist');
-
-    function fetchCategories(){
+function fetchCategories(){
         return fetch('http://shop.my/api/categories', {
             method: 'GET',
             headers: {'Content-Type': 'application/json'}
@@ -454,120 +454,170 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+function isAuth() {
+    return fetch('http://shop.my/api/auth', {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'}
+        })
+    .then(response => {
+        return response.json()
+    })
+}
+
+// =======================================================
+document.addEventListener("DOMContentLoaded", () => {
+    // console.log(navbarToggler)
+ 
+    navbarToggler.addEventListener('click', function(){
+        document.querySelector('.collapse').classList.toggle('show');
+    });
+
+    cart = Store.init('basket');
+    wishlist = Store.init('wishlist');
+    amountCartItems(cart);
+    amountWishListItems(wishlist);
 
     fetchProducts('http://shop.my/api/products')
     .then(products => {
 
-        // console.log(products)
-
         let currentProducts = products;
 
-        amountCartItems(cart);
-        amountWishListItems(wishlist);
-
-        if (document.querySelector(".carousel")) {
-            fetchCategories().then(categories => {
-                makeCarousel(categories);
-                // renderCategory('.carousel-item', products);
-            })
-        }
-
-        const showOnly = document.querySelector(".show-only");
-
         const filteredCurrentProduct = (value) => {
-                currentProducts = products.filter(product => product.badge.title.includes(value));
+                currentProducts = products.filter(product => product.badgeTitle.includes(value));
                 return currentProducts;
         };
 
-        if (showOnly) {
-            let badges = [...new Set([...products.map(item => item.badgeTitle)].filter(item => item != ''))];
+ 
+        fetchCategories().then(categories => {
 
-            showOnly.innerHTML = badges.map(item => `<div class="form-check mb-1">
-                <input class="form-check-input" type="checkbox" id="id-${item}" value="${item}" name="badge">
-                <label class="form-check-label" for="id-${item}">${item}</label>
-              </div>`).join(" ");
-
-            let checkboxes = document.querySelectorAll('input[name="badge"]')
-
-            let values = [];
-            checkboxes.forEach(item => {
-                item.addEventListener("change", e => {
-                    if (e.target.checked) {
-                        values.push(item.value)
-                        showCase.innerHTML = values.map(value => populateProductList(filteredCurrentProduct(value))).join("");
-                    }else {
-                        if (values.length != 0) {
-                            let index = values.indexOf(item.value);
-                            
-                            if (index !== -1) {
-                                values.splice(index, 1);
-                            }
-                            
-                            showCase.innerHTML = values.map(value => populateProductList(filteredCurrentProduct(value))).join("");
-                        }
-                    }
-                    if (values.length == 0){
-                        currentProducts = products;
-                        showCase.innerHTML = populateProductList(products);    
-                    }
-                })
-            })
-
-        }
-        
-        const selectPicker = document.querySelector('.selectpicker');
-        if (selectPicker) {
-
-            const sortingOrders = [
-                    {k: "default", v: "Default Sorting"},
-                    {k: "popularity", v: "Popularity Product"},
-                    {k: "low-high", v: "Low To High Price"},
-                    {k: "high-low", v: "High To Low Price"},
-            ]
-
-            selectPicker.innerHTML = sortingOrders.map(item => `<option value="${item.k}">${item.v}</option>`).join(" ");
-
-            selectPicker.addEventListener('change' , function() {
-                    switch(this.value){
-                        case 'low-high':
-                            showCase.innerHTML = populateProductList(currentProducts.sort(compare('price', 'asc')));
-                            break;
-                        case 'high-low':
-                            showCase.innerHTML = populateProductList(currentProducts.sort(compare('price', 'desc')));
-                            break;
-                        case 'popularity':
-                            showCase.innerHTML = populateProductList(currentProducts.sort(compare('stars', 'desc')));
-                            break;
-                        default: 
-                            showCase.innerHTML = populateProductList(currentProducts.sort(compare('id', 'asc')));
-                    }
-            })
-        }
-        
-        if(showCase) {
+            if (document.querySelector(".carousel")) {
+                makeCarousel(categories);
+                renderCategory('.carousel-item', products);
+            }
             
-                
+            if (categoriesList) {
+                categoriesList.innerHTML = populateCategories(categories);
+                renderCategory(".categories-list", products);
+            }    
+        
+            const showOnly = document.querySelector(".show-only");
 
-            showCase.innerHTML = populateProductList(products);
+            if (showOnly) {
+                let badges = [...new Set([...products.map(item => item.badgeTitle)].filter(item => item != ''))];
 
-            addToCartButton(cart);
-            detailButton(products);
-            addToWishListButton();
-        }
+                showOnly.innerHTML = badges.map(item => `<div class="form-check mb-1">
+                    <input class="form-check-input" type="checkbox" id="id-${item}" value="${item}" name="badge">
+                    <label class="form-check-label" for="id-${item}">${item}</label>
+                  </div>`).join(" ");
 
-        // if (categoriesList) {
-        //         categoriesList.innerHTML = populateCategories(categories);
-        //         renderCategory(".categories-list", products);
-                
-        // }
+                let checkboxes = document.querySelectorAll('input[name="badge"]')
 
-        // if (shoppingCartItems) {
+                let values = [];
+                checkboxes.forEach(item => {
+                    item.addEventListener("change", e => {
+                        if (e.target.checked) {
+                            values.push(item.value)
+                            showCase.innerHTML = values.map(value => populateProductList(filteredCurrentProduct(value))).join("");
+                        }else {
+                            if (values.length != 0) {
+                                let index = values.indexOf(item.value);
+                                
+                                if (index !== -1) {
+                                    values.splice(index, 1);
+                                }
+                                
+                                showCase.innerHTML = values.map(value => populateProductList(filteredCurrentProduct(value))).join("");
+                            }
+                        }
+                        if (values.length == 0){
+                            currentProducts = products;
+                            showCase.innerHTML = populateProductList(products);    
+                        }
+                    })
+                });
+            }
+        
+            if(showCase) {
+                showCase.innerHTML = populateProductList(products);
+                addToCartButton(cart);
+                detailButton(products);
+                addToWishListButton();
 
-        //         shoppingCartItems.innerHTML = populateShoppingCart(products);
-        //         setCartTotal(cart);
-        //         renderCart();
-        // }
+                const selectPicker = document.querySelector('.selectpicker');
+            if (selectPicker) {
 
+                const sortingOrders = [
+                        {k: "default", v: "Default Sorting"},
+                        {k: "popularity", v: "Popularity Product"},
+                        {k: "low-high", v: "Low To High Price"},
+                        {k: "high-low", v: "High To Low Price"},
+                ]
 
-  }); // end fetch
+                selectPicker.innerHTML = sortingOrders.map(item => `<option value="${item.k}">${item.v}</option>`).join(" ");
+
+                selectPicker.addEventListener('change' , function() {
+                        switch(this.value){
+                            case 'low-high':
+                                showCase.innerHTML = populateProductList(currentProducts.sort(compare('price', 'asc')));
+                                break;
+                            case 'high-low':
+                                showCase.innerHTML = populateProductList(currentProducts.sort(compare('price', 'desc')));
+                                break;
+                            case 'popularity':
+                                showCase.innerHTML = populateProductList(currentProducts.sort(compare('stars', 'desc')));
+                                break;
+                            default: 
+                                showCase.innerHTML = populateProductList(currentProducts.sort(compare('id', 'asc')));
+                        }
+                });
+            }
+            }
+            
+           
+            if (shoppingCartItems) {
+                shoppingCartItems.innerHTML = populateShoppingCart(products);
+                setCartTotal(cart);
+                renderCart();
+
+                isAuth().then(auth => {
+                    if(auth){
+                        document.querySelector('.checkout').classList.add('is-active');    
+                        document.querySelector("#checkout").addEventListener("click", () => {
+
+                            let inCart = [];
+
+                            Store.get("basket").forEach(item => {
+                                inCart.push({
+                                    id: parseInt(item.id),
+                                    amount: parseInt(item.amount)
+                                });
+                            });
+
+                            fetch("/api/checkout", {
+                                method: "POST", // *GET, POST, PUT, DELETE, etc.
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    cart: inCart,
+                                })
+                            })
+                            .then((response) => {
+                                console.log(response);
+                                clear();
+                                document.location.replace("/profile");
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            });
+
+                        });
+                        
+                    }
+                            
+                });
+            }
+        
+    }); // end fetch categories
+  }); // end fetch products
 });

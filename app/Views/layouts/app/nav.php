@@ -28,9 +28,9 @@
               </ul>
               <ul class="navbar-nav ms-auto">               
                 <li class="nav-item">
-                  <a href="/cart" class="nav-link"><i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart<small class="text-gray fw-normal" id="shopping-cart-value">(2)</small></a>
+                  <a href="/cart" class="nav-link"><i class="fas fa-dolly-flatbed me-1 text-gray"></i>Cart(<small class="text-gray fw-normal" id="shopping-cart-value">2</small>)</a>
                 </li>
-                <li class="nav-item"><a href="#!" class="nav-link"><i class="far fa-heart me-1"></i><small class="text-gray fw-normal" id="wish-list-value">(0)</small></a>
+                <li class="nav-item"><a href="#!" class="nav-link"><i class="far fa-heart me-1"></i>(<small class="text-gray fw-normal" id="wish-list-value">0</small>)</a>
                 </li>
                 <?php if(Core\Session::instance()->get('isAuth')):?>
                 <li class="nav-item"><a href="/profile" class="nav-link"><i class="fas fa-user me-1 text-gray fw-normal"></i>Profile</a>

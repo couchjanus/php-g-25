@@ -2,7 +2,7 @@
 namespace Controllers;
 use Core\Controller;
 use Core\Session;
-use Models\User;
+use Models\{User, Order};
 use Core\AuthInterface;
 
 class ProfileController extends Controller  implements AuthInterface
@@ -32,5 +32,12 @@ class ProfileController extends Controller  implements AuthInterface
     public function index()
     {
         $this->response->render('profile/index', ['user' => $this->user]);
+    } 
+
+    public function orders()
+    {
+        $uid = $this->user->id;
+        $orders = (new Order)->where("user_id='$uid'")->get();
+        $this->response->render('profile/orders', ['user' => $this->user, 'orders' => $orders]);
     } 
 }

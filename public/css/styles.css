@@ -1654,10 +1654,17 @@ p.checkout {
     background-color: red;
 }
 
-.check-out:hover {
+.checkout:hover {
     background: rgba(229, 12, 12, .95)
 }
 
+.checkout  {
+    display: none;
+}
+
+.is-active{
+    display:inline-block;
+}
 
 table { 
     width: 100%; 

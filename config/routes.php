@@ -11,12 +11,16 @@ return [
     "signin" => "Controllers\LoginController@signin",
 
     "profile" => "Controllers\ProfileController@index",
+    'profile/orders' => "Controllers\ProfileController@orders",
     "logout" => "Controllers\LoginController@logout",
     
     'shop' => 'Controllers\ShopController@index',
+    'cart' => 'Controllers\CartController@index',
 
     'api/products' => 'Controllers\HomeController@getAllProducts',
     'api/categories' => 'Controllers\HomeController@getCategories',
+    'api/auth' => 'Controllers\CartController@auth',
+    'api/checkout' => 'Controllers\OrderController@checkout',
 
     'admin' => 'Controllers\Admin\DashboardController@index',
     'admin/brands' => 'Controllers\Admin\BrandController@index',
